@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maths Quest — Sommes avec parenthèses de priorité</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--ink:#1f2937;--muted:#64748b;--accent:#2767c9;--accent2:#174ea6;--good:#15805d;--bad:#bd3d3d;--line:#dbe4ef;--soft:#eef4ff;--shadow:0 10px 28px rgba(25,49,83,.10);--radius:18px}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}button,input{font:inherit}button{cursor:pointer}.top{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.topin{max-width:1040px;margin:auto;padding:14px 20px;display:flex;align-items:center;gap:18px}.brand{font-weight:950;letter-spacing:-.4px}.brand span{color:var(--accent)}.progress{margin-left:auto;display:flex;align-items:center;gap:10px;min-width:260px}.bar{height:10px;background:#e7edf6;border-radius:99px;overflow:hidden;flex:1}.bar>div{height:100%;width:0;background:var(--accent);transition:.25s}.scoretop{font-size:.9rem;font-weight:850;min-width:54px;text-align:right}main{max-width:1040px;margin:30px auto;padding:0 20px 55px}.hero{margin-bottom:22px}.tag{display:inline-flex;padding:6px 10px;background:var(--soft);color:var(--accent2);font-weight:850;border-radius:99px;font-size:.82rem}.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.03;letter-spacing:-1.5px;margin:10px 0}.hero p{max-width:760px;color:var(--muted);line-height:1.6}.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:20px;align-items:start}.panel,.side{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.panel{padding:25px}.side{padding:20px;position:sticky;top:84px}.qno{font-size:.82rem;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:.08em}.prompt{font-size:1.05rem;line-height:1.55;margin:8px 0 18px}.expression{font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:750;text-align:center;padding:28px 16px;background:#f8fbff;border:1px solid #dce9fa;border-radius:16px;margin:14px 0 22px;overflow-wrap:anywhere}.answer{display:flex;gap:10px;max-width:520px;margin:auto}.answer input{flex:1;min-width:0;border:2px solid #cfd9e8;border-radius:12px;padding:13px 15px;font-size:1.16rem;outline:none}.answer input:focus{border-color:var(--accent)}.btn{border:0;border-radius:12px;padding:12px 16px;font-weight:850;background:var(--accent);color:#fff;box-shadow:0 5px 14px rgba(39,103,201,.18)}.btn:hover{background:var(--accent2)}.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.good{background:var(--good)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;justify-content:center}.feedback,.method{margin-top:18px;padding:14px 16px;border-radius:12px;line-height:1.58}.feedback.good{background:#ecf8f3;color:#0b6b48;border:1px solid #b9e5d3}.feedback.bad{background:#fff1f1;color:#9b2b2b;border:1px solid #f0c5c5}.feedback.info{background:#f5f8fc;color:#41536b;border:1px solid #dbe4ef}.method{background:#fffbea;border:1px solid #f0dfa5}.method strong{display:block;margin-bottom:6px}.stat{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.stat:last-child{border-bottom:0}.stat b{font-size:1.08rem}.mini{font-weight:900;margin:0 0 8px}.course{margin-top:18px;font-size:.94rem;line-height:1.55;color:#3f4d61}.course ul{padding-left:20px}.course li{margin:7px 0}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-weight:800}.tabs button.active{background:var(--soft);border-color:#a7c4f0;color:var(--accent2)}.done{text-align:center;padding:38px 10px}.done .big{font-size:3.3rem;font-weight:950;color:var(--accent);line-height:1}.footer{text-align:center;color:var(--muted);font-size:.84rem;margin-top:24px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.side{position:static}.progress{min-width:0}.scoretop{display:none}}@media(max-width:520px){.topin{padding:12px 14px}main{padding:0 14px 40px;margin-top:22px}.panel{padding:18px}.side{padding:16px}.answer{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin"><div class="brand">Maths <span>Quest</span></div><div class="progress"><div class="bar"><div id="bar"></div></div><div class="scoretop" id="top">0/10</div></div></div></header>
+<main>
+<div class="hero"><span class="tag">Sommes algébriques</span><h1>Sommes avec<br>parenthèses de priorité</h1><p>Les expressions ne contiennent que des additions et des soustractions de nombres relatifs. La seule priorité à gérer est le calcul à l’intérieur des parenthèses.</p></div>
+<div class="layout">
+<section class="panel"><div class="tabs"><button data-level="1" class="active">Niveau 1</button><button data-level="2">Niveau 2</button><button data-level="3">Niveau 3</button></div><div id="game"></div></section>
+<aside class="side"><h3 class="mini">Ma série</h3><div class="stat"><span>Réussites</span><b id="ok">0</b></div><div class="stat"><span>Erreurs</span><b id="ko">0</b></div><div class="stat"><span>Série</span><b id="streak">0</b></div><button class="btn secondary" id="reset" style="width:100%;margin-top:14px">Recommencer</button><div class="method course"><strong>Méthode</strong><ul><li>1. Calculer d’abord chaque parenthèse.</li><li>2. Remplacer la parenthèse par son résultat.</li><li>3. Terminer la somme algébrique de gauche à droite.</li></ul><div><b>Aucune multiplication, aucune division.</b></div></div></aside>
+</div><div class="footer">Les nombres et les parenthèses changent automatiquement à chaque exercice.</div>
+</main>
+<script>
+(()=>{
+const N=10,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a,choice=a=>a[Math.floor(Math.random()*a.length)],nz=(a=-12,b=12)=>{let n=0;while(!n)n=ri(a,b);return n};
+let level=1,s={done:0,ok:0,ko:0,streak:0,q:null,locked:false};
+const fmt=n=>n<0?`−${Math.abs(n)}`:`${n}`;
+const op=(n,first=false)=> first?fmt(n):(n<0?`− ${Math.abs(n)}`:`+ ${n}`);
+const par=x=>`(${x})`;
+
+function q1(){
+  const a=nz(),b=nz(-10,10),c=nz(-10,10),kind=ri(1,4);
+  let inside,res,exp,after;
+  if(kind===1){inside=b+c;res=a+inside;exp=`${fmt(a)} + ${par(`${fmt(b)} ${op(c)}`)}`;after=`${fmt(a)} ${op(inside)}`}
+  if(kind===2){inside=b+c;res=a-inside;exp=`${fmt(a)} − ${par(`${fmt(b)} ${op(c)}`)}`;after=`${fmt(a)} ${op(-inside)}`}
+  if(kind===3){inside=b-c;res=a+inside;exp=`${fmt(a)} + ${par(`${fmt(b)} ${op(-c)}`)}`;after=`${fmt(a)} ${op(inside)}`}
+  if(kind===4){inside=b-c;res=a-inside;exp=`${fmt(a)} − ${par(`${fmt(b)} ${op(-c)}`)}`;after=`${fmt(a)} ${op(-inside)}`}
+  return{exp,res,steps:[`On calcule d’abord la parenthèse : ${exp.match(/\((.*)\)/)[1]} = ${fmt(inside)}.`,`L’expression devient : ${after}.`,`Résultat : ${fmt(res)}.`]};
+}
+
+function q2(){
+  const a=nz(),b=nz(-9,9),c=nz(-9,9),d=nz(-9,9),e=nz(-9,9);
+  const i1=b+c,i2=d-e;
+  const variant=ri(1,4);
+  let exp,res,after;
+  if(variant===1){exp=`${fmt(a)} − ${par(`${fmt(b)} ${op(c)}`)} + ${par(`${fmt(d)} ${op(-e)}`)}`;res=a-i1+i2;after=`${fmt(a)} ${op(-i1)} ${op(i2)}`}
+  if(variant===2){exp=`${fmt(a)} + ${par(`${fmt(b)} ${op(c)}`)} − ${par(`${fmt(d)} ${op(-e)}`)}`;res=a+i1-i2;after=`${fmt(a)} ${op(i1)} ${op(-i2)}`}
+  if(variant===3){exp=`${par(`${fmt(a)} ${op(-b)}`)} − ${par(`${fmt(c)} ${op(d)}`)} ${op(e)}`;const j1=a-b,j2=c+d;res=j1-j2+e;return{exp,res,steps:[`Parenthèses : ${fmt(a)} ${op(-b)} = ${fmt(j1)} et ${fmt(c)} ${op(d)} = ${fmt(j2)}.`,`L’expression devient : ${fmt(j1)} ${op(-j2)} ${op(e)}.`,`Résultat : ${fmt(res)}.`]}}
+  if(variant===4){exp=`${par(`${fmt(a)} ${op(b)}`)} + ${par(`${fmt(c)} ${op(-d)}`)} ${op(e)}`;const j1=a+b,j2=c-d;res=j1+j2+e;return{exp,res,steps:[`Parenthèses : ${fmt(a)} ${op(b)} = ${fmt(j1)} et ${fmt(c)} ${op(-d)} = ${fmt(j2)}.`,`L’expression devient : ${fmt(j1)} ${op(j2)} ${op(e)}.`,`Résultat : ${fmt(res)}.`]}}
+  return{exp,res,steps:[`Parenthèses : ${fmt(b)} ${op(c)} = ${fmt(i1)} et ${fmt(d)} ${op(-e)} = ${fmt(i2)}.`,`L’expression devient : ${after}.`,`Résultat : ${fmt(res)}.`]};
+}
+
+function q3(){
+  const a=nz(-10,10),b=nz(-9,9),c=nz(-9,9),d=nz(-9,9),e=nz(-9,9),f=nz(-9,9);
+  const type=ri(1,3);
+  if(type===1){
+    const inner=c+d,outer=b-inner,res=a-outer+e;
+    const exp=`${fmt(a)} − ${par(`${fmt(b)} − ${par(`${fmt(c)} ${op(d)}`)}`)} ${op(e)}`;
+    return{exp,res,steps:[`Parenthèse intérieure : ${fmt(c)} ${op(d)} = ${fmt(inner)}.`,`Puis : ${fmt(b)} − (${fmt(inner)}) = ${fmt(outer)}.`,`L’expression devient : ${fmt(a)} ${op(-outer)} ${op(e)}. Donc le résultat est ${fmt(res)}.`]};
+  }
+  if(type===2){
+    const i1=a-b,i2=c+d,i3=e-f,res=i1-i2+i3;
+    const exp=`${par(`${fmt(a)} ${op(-b)}`)} − ${par(`${fmt(c)} ${op(d)}`)} + ${par(`${fmt(e)} ${op(-f)}`)}`;
+    return{exp,res,steps:[`On calcule les parenthèses : ${fmt(a)} ${op(-b)} = ${fmt(i1)}, ${fmt(c)} ${op(d)} = ${fmt(i2)} et ${fmt(e)} ${op(-f)} = ${fmt(i3)}.`,`L’expression devient : ${fmt(i1)} ${op(-i2)} ${op(i3)}.`,`Résultat : ${fmt(res)}.`]};
+  }
+  const inner=d-e,outer=c+inner,res=a-b-outer+f;
+  const exp=`${fmt(a)} ${op(-b)} − ${par(`${fmt(c)} + ${par(`${fmt(d)} ${op(-e)}`)}`)} ${op(f)}`;
+  return{exp,res,steps:[`Parenthèse intérieure : ${fmt(d)} ${op(-e)} = ${fmt(inner)}.`,`Puis : ${fmt(c)} + (${fmt(inner)}) = ${fmt(outer)}.`,`L’expression devient : ${fmt(a)} ${op(-b)} ${op(-outer)} ${op(f)}. Donc le résultat est ${fmt(res)}.`]};
+}
+
+function make(){return level===1?q1():level===2?q2():q3()}
+function stats(){$('#ok').textContent=s.ok;$('#ko').textContent=s.ko;$('#streak').textContent=s.streak;$('#top').textContent=`${s.done}/${N}`;$('#bar').style.width=`${s.done/N*100}%`}
+function next(){if(s.done>=N)return done();s.q=make();s.locked=false;render()}
+function render(){
+  $('#game').innerHTML=`<div class="qno">Question ${s.done+1} sur ${N}</div><div class="prompt">Calcule cette somme algébrique. <b>Commence par les parenthèses.</b></div><div class="expression">${s.q.exp}</div><div class="answer"><input id="ans" inputmode="numeric" autocomplete="off" placeholder="Ton résultat"><button class="btn" id="check">Valider</button></div><div id="fb"></div><div class="actions"><button class="btn secondary" id="method">Voir la première étape</button><button class="btn secondary" id="dont">Je ne sais pas</button></div>`;
+  $('#ans').focus();$('#ans').onkeydown=e=>{if(e.key==='Enter')check()};$('#check').onclick=check;$('#method').onclick=()=>show(false);$('#dont').onclick=()=>{if(!s.locked){s.ko++;s.streak=0;s.locked=true;show(true);stats()}};stats();
+}
+function show(answer){$('#fb').className='method';$('#fb').innerHTML=`<strong>${answer?'Correction':'Méthode'}</strong>${(answer?s.q.steps:[s.q.steps[0]]).map(x=>`<div>${x}</div>`).join('')}${answer?`<div style="margin-top:8px"><b>Réponse : ${fmt(s.q.res)}</b></div><div class="actions"><button class="btn" id="next">Exercice suivant</button></div>`:''}`;if(answer)$('#next').onclick=()=>{s.done++;next()}}
+function check(){if(s.locked)return;const raw=$('#ans').value.trim().replace(/−/g,'-').replace(',','.');const v=Number(raw);if(raw===''||Number.isNaN(v)){$('#fb').className='feedback info';$('#fb').textContent='Entre un nombre avant de valider.';return}if(v===s.q.res){s.ok++;s.streak++;s.locked=true;$('#fb').className='feedback good';$('#fb').innerHTML=`✅ Bonne réponse ! <b>${fmt(s.q.res)}</b><div class="actions"><button class="btn good" id="next">Exercice suivant</button></div>`;$('#next').onclick=()=>{s.done++;next()}}else{s.ko++;s.streak=0;$('#fb').className='feedback bad';$('#fb').textContent='Ce n’est pas encore ça. Calcule d’abord ce qui est entre parenthèses.';$('#ans').select()}stats()}
+function done(){$('#game').innerHTML=`<div class="done"><div class="big">${s.ok}/${N}</div><h2>Série terminée</h2><p>Recommence ou change de niveau.</p><button class="btn" id="again">Nouvelle série</button></div>`;$('#again').onclick=reset;stats()}
+function reset(){s={done:0,ok:0,ko:0,streak:0,q:null,locked:false};next()}
+$$('[data-level]').forEach(b=>b.onclick=()=>{level=Number(b.dataset.level);$$('[data-level]').forEach(x=>x.classList.toggle('active',x===b));reset()});$('#reset').onclick=reset;next();
+})();
+</script>
+</body>
+</html>
